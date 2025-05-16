@@ -1,6 +1,6 @@
-# EGDSF
-End-to-End Genomic Data Sharing with  Sensitive Masking and Learning-based
----
+<div align="center">
+<h1>Lossless Genomic Data Storage and Sharing with Sensitive Masking and Learning-based Compression</h1>
+</div>
 
 # Setup
 ```
