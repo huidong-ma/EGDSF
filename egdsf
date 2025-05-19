@@ -1,5 +1,5 @@
 #!/bin/bash
-# Author: Huidong Ma, Hui Sun
+# Author: Anonymous
 # Date: 07/05/2025
 # RSA encrypt/decrypt: prsec -e/-d [threads] file/dir
 # skmer: skmer file k s gpu
@@ -39,7 +39,7 @@ case "$1" in
         echo "===== Finish Compression ====="
         ;;
     d)
-        echo "===== Start Decompressing ====="        # 实际使用时替换为真正的命令 b
+        echo "===== Start Decompressing ====="
         echo "=== 1. Decompressing... ==="
         cd ${file_path}
         python ${algo_path}/decompress.py ${file_name} encry.data --prefix encry.data_${K}_${S}
