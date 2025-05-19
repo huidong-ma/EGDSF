@@ -41,7 +41,3 @@ tar -zxvf dataBaseSrf.tar.gz
 
 # Acknowledgment
 The code is based on [PAC](https://github.com/mynotwo/Faster-and-Stronger-Lossless-Compression-with-Optimized-Autoregressive-Framework), [MSDZip](https://github.com/mhuidong/MSDZip), and [Reference-arithmetic-coding](https://github.com/nayuki/Reference-arithmetic-coding). Thanks for these great works.
-
-# Contact
-Email: mahd@nbjl.nankai.edu.cn  or sunh@nbjl.nankai.edu.cn  
-Nankai-Baidu Joint Laboratory (NBJL)
