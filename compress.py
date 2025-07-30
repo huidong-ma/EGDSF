@@ -5,7 +5,6 @@ import time
 import logging
 import argparse
 
-import numpy as np
 import torch
 import os
 

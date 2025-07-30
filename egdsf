@@ -1,51 +1,78 @@
 #!/bin/bash
-# Author: Anonymous
 # Date: 07/05/2025
-# RSA encrypt/decrypt: prsec -e/-d [threads] file/dir
-# skmer: skmer file k s gpu
-# USAGE: bash compress.sh <input_file> <threads> <K> <S> <GPU>
+# USAGE: ./egdsf [mode(c/d)] [input_file] [output_file]
 
 mode=$1
-input_file=$2
+input_file=$(realpath "$2")
+output_file=$(realpath "$3")
 
+# === default params ===
 param_names=(threads K S GPU)
 default_values=(32 3 3 0)
 
 for i in "${!param_names[@]}"; do
     param_name="${param_names[$i]}"
-    param_index=$((i + 3))
+    param_index=$((i + 4))
     eval "$param_name=\${$param_index:-${default_values[$i]}}"
-    echo "$param_name 的值为: ${!param_name}"
+    echo "$param_name value: ${!param_name}"
 done
 
+egdsf_fp=$(dirname "$(realpath "$0")")
+egdsf=$egdsf_fp"/egdsf"
+prsec=$egdsf_fp"/PRSEC/prsec"
+skmer=$egdsf_fp"/PRSEC/skmer"
+chmod 777 ${egdsf} ${prsec} ${skmer}
 
-file_path=$(realpath $(dirname ${input_file}))
+if [ ! -f "$egdsf_fp/dataBaseSrf.txt" ]; then
+    echo "Error: File dataBaseSrf.txt dosen't exist!"
+    exit 1
+fi
+
 file_name=$(basename ${input_file})
-algo_path=$(pwd)
+echo "Input file: $input_name"
+
+cd $egdsf_fp
+cp $input_file .
 
 case "$1" in
     c)
         echo "===== Start Compressing ====="
-
         echo "=== 1. Encrypt Sensitive Sequence... ==="
-        prsec -c ${threads} ${input_file}
-        cd ${input_file}.out
+        $prsec -c ${threads} ${file_name}
+
+        cd ${file_name}.out
         echo "=== 2. SK-mer accelation... ==="
-        skmer encry.data ${K} ${S} ${GPU}
+        $skmer encry.data ${K} ${S} ${GPU}
+
         echo "=== 3. Compression... ==="
-        python ${algo_path}/compress.py encry.data_${K}_${S}.npy ${file_name}.compressed --prefix encry.data_${K}_${S}
+        python ${egdsf_fp}/compress.py encry.data_${K}_${S}.npy ${file_name}.compressed --prefix encry.data_${K}_${S}
         rm -rf encry.data
         rm -rf encry.data_${K}_${S}.npy
+
+        cd ${egdsf_fp}
+        tar -cvf $output_file $file_name.out
+        rm -rf $file_name $file_name.out
         echo "===== Finish Compression ====="
         ;;
     d)
         echo "===== Start Decompressing ====="
         echo "=== 1. Decompressing... ==="
-        cd ${file_path}
-        python ${algo_path}/decompress.py ${file_name} encry.data --prefix encry.data_${K}_${S}
-        cd ${algo_path}
-        prsec -d ${threads} ${file_path}
-        rm -rf ${file_path}
+        cp $input_file .
+        folder_name=$(tar -tf "$file_name" | head -1 | cut -d/ -f1)
+
+        echo $folder_name
+        tar -xvf $file_name 
+        base_name=${folder_name%.out}
+        cd $folder_name
+
+        
+        python ${egdsf_fp}/decompress.py ${base_name}.compressed encry.data --prefix encry.data_${K}_${S}
+        cd ${egdsf_fp}
+
+        $prsec -d ${threads} ${folder_name}
+        rm -rf $file_name $folder_name
+        mv $base_name.decry $output_file
+
         ;;
     *)
         echo "Error: only support "c" (compression) or "d" decompression" >&2
