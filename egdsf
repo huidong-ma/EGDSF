@@ -62,11 +62,11 @@ case "$1" in
         base_name=${folder_name%.out}
         cd $folder_name
 
-        echo "=== 3. Decompression... ==="
+        echo "=== 1. Decompression... ==="
         python ${egdsf_fp}/decompress.py ${base_name}.compressed encry.data --prefix encry.data_${K}_${S}
         cd ${egdsf_fp}
 
-        echo "=== 1. Decrypt... ==="
+        echo "=== 2. Decrypt... ==="
         $prsec -d ${threads} ${folder_name}
         rm -rf $file_name $folder_name
         mv $base_name.decry $output_file
