@@ -37,7 +37,7 @@ cp $input_file .
 case "$1" in
     c)
         echo "===== Start Compressing ====="
-        echo "=== 1. Encrypt Sensitive Sequence... ==="
+        echo "=== 1. Encrypt... ==="
         $prsec -c ${threads} ${file_name}
 
         cd ${file_name}.out
@@ -56,23 +56,20 @@ case "$1" in
         ;;
     d)
         echo "===== Start Decompressing ====="
-        echo "=== 1. Decompressing... ==="
-        cp $input_file .
         folder_name=$(tar -tf "$file_name" | head -1 | cut -d/ -f1)
 
-        echo $folder_name
         tar -xvf $file_name 
         base_name=${folder_name%.out}
         cd $folder_name
 
-        
+        echo "=== 3. Decompression... ==="
         python ${egdsf_fp}/decompress.py ${base_name}.compressed encry.data --prefix encry.data_${K}_${S}
         cd ${egdsf_fp}
 
+        echo "=== 1. Decrypt... ==="
         $prsec -d ${threads} ${folder_name}
         rm -rf $file_name $folder_name
         mv $base_name.decry $output_file
-
         ;;
     *)
         echo "Error: only support "c" (compression) or "d" decompression" >&2
