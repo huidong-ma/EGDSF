@@ -31,12 +31,6 @@ EGDSF provides the following key features:
 
 ---
 
-## 🔥 Change Logs
-- *2025.07.30*: Fixed several bugs. EGDSF is now more user-friendly. 
-- *2025.05.20*: Initial bug fixes and improvements.
-
----
-
 ## 💡 Usage
 
 ### Setup
@@ -77,6 +71,12 @@ To reproduce the results or evaluate the method, please prepare the datasets as 
 tar -zxvf dataBaseSrf.tar.gz 
 tar -zxvf datasets.tar.gz
 ```
+
+---
+
+## 🔥 Change Logs
+- *2025.07.30*: Fixed several bugs. EGDSF is now more user-friendly. 
+- *2025.05.20*: Initial bug fixes and improvements.
 
 ---
 
