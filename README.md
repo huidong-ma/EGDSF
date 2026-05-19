@@ -65,7 +65,7 @@ egdsf d test.encry test.decry
 
 ## 📦 Dataset
 To reproduce the results or evaluate the method, please prepare the datasets as follows:
-1. Download the Sensitive Sequence Dictionary and DNA Datasets used in the paper from [link]().
+1. Download the Sensitive Sequence Dictionary and DNA Datasets used in the paper from [Google Drive](https://drive.google.com/drive/folders/1fUehZFtMOZE5s0Kulx9e-bnt17BiFcC_?usp=drive_link).
 2. Unzip the downloaded archives:
 ```bash
 tar -zxvf dataBaseSrf.tar.gz 
