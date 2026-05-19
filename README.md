@@ -9,7 +9,7 @@ To overcome this, EGDSF introduces a novel **"Filtering Masking + Compression"**
 
 <div align="center">
   <picture>
-    <img src="https://github.com/huidong-ma/EGDSF/tree/main/assets/framework.png" width="600" alt="Framework of proposed method.">
+    <img src="https://github.com/huidong-ma/EGDSF/blob/main/assets/framework.png" width="800" alt="Framework of proposed method.">
   </picture>
   <br>
   <b>Framework of proposed method.</b>
@@ -23,7 +23,7 @@ EGDSF provides the following key features:
 
 <div align="center">
   <picture>
-    <img src="https://github.com/huidong-ma/EGDSF/tree/main/assets/results.png" width="600" alt="Performance of all methods.">
+    <img src="https://github.com/huidong-ma/EGDSF/blob/main/assets/results.png" width="800" alt="Performance of all methods.">
   </picture>
   <br>
   <b>Overall performance of all method on real-world datasets.</b>
