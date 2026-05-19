@@ -48,17 +48,17 @@ export PATH=<SeGen_PATH>:$PATH
 You can easily compress and decompress files using the following commands:
 ```bash
 # Compression
-SeGen c <input_file> <output_file>
+segen c <input_file> <output_file>
 
 # Decompression
-SeGen d <compressed_file> <decompressed_file>
+segen d <compressed_file> <decompressed_file>
 ```
 
 **Example:**
 Using the file `test` as an example:
 ```bash
-SeGen c test test.encry
-SeGen d test.encry test.decry
+segen c test test.encry
+segen d test.encry test.decry
 ```
 
 ---
