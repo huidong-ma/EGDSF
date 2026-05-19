@@ -1,5 +1,5 @@
 <div align="center">
-<h1>Masking-Enhanced Neural Lossless Compression for Secure Genome Sharing</h1>
+<h1>Secure Genome Sharing via Masking-Enhanced Neural Lossless Compression</h1>
 </div>
 
 ## 📄 Introduction
