@@ -405,8 +405,8 @@ void  decrypted_rsa(int threadCount, string input_Path){
     }
 
 
-    for (int index = 0; index < len; index++)
-        out_File<<strBlock[index];
+    for (size_t index = 0; index < strBlock.size(); index++)
+        out_File << strBlock[index];
 
 
 
