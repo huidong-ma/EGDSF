@@ -64,13 +64,26 @@ segen d test.encry test.decry
 ---
 
 ## 📦 Dataset
-To reproduce the results or evaluate the method, please prepare the datasets as follows:
-1. Download the Sensitive Sequence Dictionary and DNA Datasets used in the paper from [Google Drive](https://drive.google.com/drive/folders/1fUehZFtMOZE5s0Kulx9e-bnt17BiFcC_?usp=drive_link).
-2. Unzip the downloaded archives:
-```bash
-tar -zxvf dataBaseSrf.tar.gz 
-tar -zxvf datasets.tar.gz
-```
+The datasets used in the paper can be directly downloaded from [datasets.tar.gz](https://drive.google.com/file/d/1LShFvdYzGvXiFhzEU7dZUfEx-jPFSlDO/view?usp=drive_link) and extracted by executing `tar -xzf datasets.tar.gz`. The detailed information is as follows.
+| **Name** | **Size (B)** | **Entropy** | **Description** |
+| :---: | :---: | :---: | :---: |
+| **AeCa** | 1,591,049 | 1.987 | A medium-sized aeropyrum camini dataset |
+| **HePy** | 1,667,825 | 1.964 | A medium-sized helicobacter pylori bacterial dataset |
+| **HaHi** | 3,890,005 | 1.955 | A large-scale haloarcula hispanica archaea dataset |
+| **EsCo** | 4,641,652 | 2.000 | A medium-sized escherichia coli bacteria dataset |
+| **SnSt** | 6,254,100 | 1.983 | A small-sized Human high-level privacy-sensitive dataset with STRs and SNPs |
+| **PlFa** | 8,986,712 | 1.974 | A small-scale plasmodium falciparum dataset |
+| **WaMe** | 9,144,432 | 1.976 | A GD dataset of unknown species |
+| **ScPo** | 10,652,155 | 1.964 | A medium-sized schizosaccharomyces pombe dataset |
+| **HuMa** | 16,577,023 | 1.931 | A dataset of human genome data |
+| **EnIn** | 26,403,087 | 1.951 | A medium-sized entamoeba invadens dataset |
+| **DrMe** | 32,181,429 | 1.991 | A medium-sized chromosome-2 of the drosophila miranda |
+| **OrSa** | 43,262,523 | 1.989 | A large chromosome-1 dataset of oryza sativa japonica |
+| **DaRe** | 62,565,020 | 1.950 | The chromosome-3 of the danio rerio |
+| **AnCa** | 142,189,675 | 1.968 | One genome dataset of unknown species |
+| **GaGa** | 148,532,294 | 1.970 | A large-scale chromosome-2 of the gallus gallus |
+| **HoSa** | 189,752,667 | 1.960 | A large-scale human genome dataset |
+
 
 ---
 
