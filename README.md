@@ -34,37 +34,61 @@ SeGen provides the following key features:
 ## 💡 Usage
 
 ### Setup
-Before running, navigate to the project directory and set the appropriate permissions for the executable:
-```bash
-cd <SeGen_PATH>
-chmod 777 ./SeGen
-```
-*Optional but recommended:* Add `SeGen` to your global environment variables for convenient access from anywhere:
-```bash
-export PATH=<SeGen_PATH>:$PATH
-```
 
-### Running
-You can easily compress and decompress files using the following commands:
-```bash
-# Compression
-segen c <input_file> <output_file>
+1. Clone the repository and enter the project directory:
 
-# Decompression
-segen d <compressed_file> <decompressed_file>
-```
+    ```bash
+    git clone https://github.com/huidong-ma/SeGen.git
+    cd SeGen
+    chmod +x ./segen
+    ```
+
+2. Create and activate a Conda environment:
+
+   ```bash
+   conda create -n segen_env python=3.12 -y
+   conda activate segen_env
+   ```
+
+3. Install PyTorch.
+
+   Please install a PyTorch version compatible with your CUDA driver and GPU. You can find installation commands from the official PyTorch previous versions page:
+   https://pytorch.org/get-started/previous-versions/.
+
+4. Download the sensitive sequence database from [dataBaseSrf.tar.gz](https://drive.google.com/file/d/1ER9jGTI2UmBj_coyZ2Xm9TUsv7gb8Rkk/view?usp=drive_link) and extract it by:
+
+   ```bash
+   tar -zxvf dataBaseSrf.tar.gz
+   ```
+
+   After extraction, make sure `dataBaseSrf.txt` exists in the SeGen project directory.
+
+### Compression and Decompression
+
+1. Compress a raw genomic sequence file:
+
+    ```bash
+    ./segen c <raw_file> <compressed_file>
+    ```
+
+2. Decompress a compressed file:
+
+    ```bash
+    ./segen d <compressed_file> <decompressed_file>
+    ```
 
 **Example:**
-Using the file `test` as an example:
+
 ```bash
-segen c test test.encry
-segen d test.encry test.decry
+./segen c test test.cmp
+./segen d test.cmp test.decmp
 ```
+
 
 ---
 
 ## 📦 Dataset
-The datasets used in the paper can be directly downloaded from [datasets.tar.gz](https://drive.google.com/file/d/1LShFvdYzGvXiFhzEU7dZUfEx-jPFSlDO/view?usp=drive_link) and extracted by executing `tar -xzf datasets.tar.gz`. The detailed information is as follows.
+The datasets used in the paper can be directly downloaded from [datasets.tar.gz](https://drive.google.com/file/d/1LShFvdYzGvXiFhzEU7dZUfEx-jPFSlDO/view?usp=drive_link) and extracted by executing `tar -zxvf datasets.tar.gz`. The detailed information is as follows.
 | **Name** | **Size (B)** | **Entropy** | **Description** |
 | :---: | :---: | :---: | :---: |
 | **AeCa** | 1,591,049 | 1.987 | A medium-sized aeropyrum camini dataset |
@@ -83,13 +107,6 @@ The datasets used in the paper can be directly downloaded from [datasets.tar.gz]
 | **AnCa** | 142,189,675 | 1.968 | One genome dataset of unknown species |
 | **GaGa** | 148,532,294 | 1.970 | A large-scale chromosome-2 of the gallus gallus |
 | **HoSa** | 189,752,667 | 1.960 | A large-scale human genome dataset |
-
-
----
-
-## 🔥 Change Logs
-- *2025.07.30*: Fixed several bugs. SeGen is now more user-friendly. 
-- *2025.05.20*: Initial bug fixes and improvements.
 
 ---
 
