@@ -1,3 +1,7 @@
+import os
+os.environ.setdefault("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
+os.environ.setdefault("PYTHONHASHSEED", "0")
+
 import math
 import shutil
 import sys
@@ -5,11 +9,13 @@ import time
 import logging
 import argparse
 import torch
-import os
 import compress_model
 import arithmeticcoding_fast
 from utils import *
 
+torch.use_deterministic_algorithms(True)
+torch.backends.cuda.matmul.allow_tf32 = False
+torch.backends.cudnn.allow_tf32 = False
 torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark = False
 
@@ -28,7 +34,7 @@ def parseArgs(argv):
     parser.add_argument('--wd', type=float, default=1e-7, help='Weight decay.')
     parser.add_argument('--timesteps', type=int, default=16, help='The number of history symbols')
     parser.add_argument('--vocab_dim', type=int, default=16, help='The dimension of vocab.')
-    parser.add_argument('--vocab_size', type=int, default=256, help='The size of vocab.')
+    parser.add_argument('--vocab_size', type=int, default=64, help='The size of vocab.')
     parser.add_argument('--hidden_dim', type=int, default=256, help='The dimension of hidden layer.')
     parser.add_argument('--ffn_dim', type=int, default=4096, help='The dimension of ffn layer.')
     parser.add_argument('--seed', type=int, default=0, help='Random seeds.')
@@ -139,7 +145,6 @@ def main(args):
         f_out = open(temp_file + '.' + str(i), 'wb')
         byte_str_len = var_int_decode(f)
         byte_str = f.read(byte_str_len)
-        # print(byte_str)
         f_out.write(byte_str)
         f_out.close()
 
@@ -155,7 +160,6 @@ def main(args):
     else:
         last_length = (params[args.prefix] - args.timesteps) % args.batchsize + args.timesteps
         decompress(args, temp_file, params, last_length)
-    # remove temp files
     shutil.rmtree(args.tempdir)
 
     # Reconstruction

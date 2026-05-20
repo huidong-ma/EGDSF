@@ -1,3 +1,7 @@
+import os
+os.environ.setdefault("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
+os.environ.setdefault("PYTHONHASHSEED", "0")
+
 import math
 import shutil
 import sys
@@ -6,12 +10,14 @@ import logging
 import argparse
 
 import torch
-import os
 
 import compress_model
 import arithmeticcoding_fast
 from utils import *
 
+torch.use_deterministic_algorithms(True)
+torch.backends.cuda.matmul.allow_tf32 = False
+torch.backends.cudnn.allow_tf32 = False
 torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark = False
 
@@ -28,7 +34,7 @@ def parseArgs(argv):
     parser.add_argument('--wd', type=float, default=1e-7, help='Weight decay.')
     parser.add_argument('--timesteps', type=int, default=16, help='The number of history symbols')
     parser.add_argument('--vocab_dim', type=int, default=16, help='The dimension of vocab.')
-    parser.add_argument('--vocab_size', type=int, default=256, help='The size of vocab.')
+    parser.add_argument('--vocab_size', type=int, default=64, help='The size of vocab.')
     parser.add_argument('--hidden_dim', type=int, default=256, help='The dimension of hidden layer.')
     parser.add_argument('--ffn_dim', type=int, default=4096, help='The dimension of ffn layer.')
     parser.add_argument('--seed', type=int, default=0, help='Random seeds.')
@@ -137,15 +143,12 @@ def main(args):
         f.write(str(params))
     f.close()
 
-
-    # Generating training data
     train_data = strided_app(series, args.timesteps + 1, 1)
 
-    # Stat vocab freq
     total_num = len(train_data)
     if total_num % args.batchsize == 0:
         compress(args, temp_file, series, train_data, None)
-    else:  # 不够整数个batchsize
+    else:
         ini_num = total_num // args.batchsize * args.batchsize
         compress(args, temp_file, series[:ini_num + args.timesteps], train_data[:ini_num], series[ini_num:])
 
