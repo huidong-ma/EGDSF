@@ -10,7 +10,6 @@ import sys
 python3 = sys.version_info.major >= 3
 import time
 
-
 # ---- Arithmetic coding core classes ----
 
 # Provides the state and behaviors that arithmetic coding encoders and decoders share.
