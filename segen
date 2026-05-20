@@ -1,0 +1,78 @@
+#!/bin/bash
+# Date: 07/05/2026
+# USAGE: ./segen [mode(c/d)] [input_file] [output_file]
+
+mode=$1
+input_file=$(realpath "$2")
+output_file=$(realpath "$3")
+
+# === default params ===
+param_names=(threads K S GPU)
+default_values=(32 3 3 0)
+
+for i in "${!param_names[@]}"; do
+    param_name="${param_names[$i]}"
+    param_index=$((i + 4))
+    eval "$param_name=\${$param_index:-${default_values[$i]}}"
+    echo "$param_name value: ${!param_name}"
+done
+
+segen_fp=$(dirname "$(realpath "$0")")
+segen=$segen_fp"/segen"
+prsec=$segen_fp"/PRSEC/prsec"
+skmer=$segen_fp"/PRSEC/skmer"
+chmod 777 ${segen} ${prsec} ${skmer}
+
+if [ ! -f "$segen_fp/dataBaseSrf.txt" ]; then
+    echo "Error: File dataBaseSrf.txt dosen't exist!"
+    exit 1
+fi
+
+file_name=$(basename ${input_file})
+echo "Input file: $input_name"
+
+cd $segen_fp
+cp $input_file .
+
+case "$1" in
+    c)
+        echo "===== Start Compressing ====="
+        echo "=== 1. Encrypt... ==="
+        $prsec -c ${threads} ${file_name}
+
+        cd ${file_name}.out
+        echo "=== 2. SK-mer accelation... ==="
+        $skmer encry.data ${K} ${S} ${GPU}
+
+        echo "=== 3. Compression... ==="
+        python ${segen_fp}/compress.py encry.data_${K}_${S}.npy ${file_name}.compressed --prefix encry.data_${K}_${S}
+        rm -rf encry.data
+        rm -rf encry.data_${K}_${S}.npy
+
+        cd ${segen_fp}
+        tar -cvf $output_file $file_name.out
+        rm -rf $file_name.out
+        echo "===== Finish Compression ====="
+        ;;
+    d)
+        echo "===== Start Decompressing ====="
+        folder_name=$(tar -tf "$file_name" | head -1 | cut -d/ -f1)
+
+        tar -xvf $file_name 
+        base_name=${folder_name%.out}
+        cd $folder_name
+
+        echo "=== 1. Decompression... ==="
+        python ${segen_fp}/decompress.py ${base_name}.compressed encry.data --prefix encry.data_${K}_${S}
+        cd ${segen_fp}
+
+        echo "=== 2. Decrypt... ==="
+        $prsec -d ${threads} ${folder_name}
+        mv $base_name.decry $output_file
+        rm -rf $folder_name
+        ;;
+    *)
+        echo "Error: only support "c" (compression) or "d" decompression" >&2
+        exit 1
+        ;;
+esac
